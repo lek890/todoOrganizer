@@ -24,7 +24,7 @@ export const Category: React.FC<{
             defaultValue={editorDefaultValue}
             className="editor"
             onChange={handleChange}
-            onFocus={() => {}}
+            autoFocus={false}
           />
           <button
             onClick={() => handleClick(item[0], value)}

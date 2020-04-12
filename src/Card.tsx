@@ -26,7 +26,11 @@ export const Card: React.FC<{
   }, 250);
 
   return (
-    <CardComp draggable onDragStart={(e) => handleDragStart(e, task.id)}>
+    <CardComp
+      draggable
+      onDragStart={(e) => handleDragStart(e, task.id)}
+      style={{ backgroundColor: task.status ? "limegreen" : "inherit" }}
+    >
       <CardBody>
         {editingId == task.id ? (
           <div>
@@ -34,7 +38,6 @@ export const Card: React.FC<{
               defaultValue={task.content}
               className="editor"
               onChange={handleChange}
-              onFocus={() => {}}
             />
             <button
               onClick={() => saveUpdate(task.id, "content", value)}
@@ -45,22 +48,20 @@ export const Card: React.FC<{
           </div>
         ) : (
           <div>
-            <Editor
-              defaultValue={task.content}
-              className="editor"
-              onChange={handleChange}
-              onFocus={() => {}}
-              readOnly
-            />
+            <div>
+              {task.content}
+              {task.id}
+            </div>
+
             <div style={{ float: "right" }}>
               <input
                 type="checkbox"
                 onChange={() => saveUpdate(task.id, "status", !task.status)}
                 checked={task.status == 1}
-                name="completed"
-                id="completed"
+                name={`completed-${task.id}`}
+                id={`completed-${task.id}`}
               />
-              <label htmlFor="completed"> {"completed"}</label>
+              <label htmlFor={`completed-${task.id}`}> {"completed"}</label>
               &nbsp;
               <a onClick={() => setEditingId(task.id)}>edit</a>
               &nbsp;
