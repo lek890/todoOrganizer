@@ -48,10 +48,7 @@ export const Card: React.FC<{
           </div>
         ) : (
           <div>
-            <div>
-              {task.content}
-              {task.id}
-            </div>
+            <div>{task.content}</div>
 
             <div style={{ float: "right" }}>
               <input
