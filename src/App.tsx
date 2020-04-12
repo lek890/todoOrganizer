@@ -11,12 +11,12 @@ const categories = {
   IMPORTANT_BUT_NOT_URGENT: "Important but Not Urgent",
   NOT_IMPORTANT_BUR_URGENT: "Not Important but Urgent",
   NOT_IMPORTANT_NOT_URGENT: "Not Important and Not Urgent",
-  TRASH: "trash"
+  TRASH: "trash",
 };
 
 enum Status {
   TODO,
-  DONE
+  DONE,
 }
 interface Task {
   category: keyof typeof categories;
@@ -44,15 +44,15 @@ export const AppComponent: React.FC = () => {
         category,
         content,
         status: Status.TODO,
-        id: category + tasks.length + 1
-      }
+        id: category + tasks.length + 1,
+      },
     ];
     updateTasks(updatedTasks);
   };
 
   const saveUpdate = (id, property, value) => {
-    const updatedTask = tasks.filter(item => item.id == id)[0];
-    const restOfTasks = tasks.filter(item => item.id !== id);
+    const updatedTask = tasks.filter((item) => item.id == id)[0];
+    const restOfTasks = tasks.filter((item) => item.id !== id);
     const update = { ...updatedTask, [property]: value };
     updateTasks([...restOfTasks, update]);
     setEditingId(null);
@@ -62,20 +62,28 @@ export const AppComponent: React.FC = () => {
     event.dataTransfer.setData("id", id);
   };
 
+  const handleDelete = (id: string) => {
+    const userOKForDelete = confirm("Confirm delete this task");
+    if (userOKForDelete) {
+      const updatedItems = tasks.filter((task) => task.id !== id);
+      updateTasks(updatedItems);
+    }
+  };
+
   const handleDrop = (event, category) => {
     const id = event.dataTransfer.getData("id");
-    const updatedTask = tasks.filter(item => item.id == id);
-    const restOfTasks = tasks.filter(item => item.id !== id);
+    const updatedTask = tasks.filter((item) => item.id == id);
+    const restOfTasks = tasks.filter((item) => item.id !== id);
     const update = { ...updatedTask[0], category };
     updateTasks([...restOfTasks, update]);
   };
 
-  const updateTasks = update => {
+  const updateTasks = (update) => {
     setTasks(update);
     localStorage.setItem(TODO_SORTER_KEY, JSON.stringify(update));
   };
 
-  const handleDragOver = e => {
+  const handleDragOver = (e) => {
     e.preventDefault();
   };
 
@@ -92,6 +100,7 @@ export const AppComponent: React.FC = () => {
         handleDragStart={handleDragStart}
         setEditingId={setEditingId}
         saveUpdate={saveUpdate}
+        handleDelete={handleDelete}
         task={t}
         editingId={editingId}
       ></Card>

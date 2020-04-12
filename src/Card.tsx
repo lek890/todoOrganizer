@@ -4,22 +4,29 @@ import Editor from "rich-markdown-editor";
 
 import { default as CardComp } from "@bit/reactstrap.reactstrap.card";
 import CardBody from "@bit/reactstrap.reactstrap.internal.card-body";
-import CardText from "@bit/reactstrap.reactstrap.internal.card-text";
 export const Card: React.FC<{
   handleDragStart;
   setEditingId;
   saveUpdate;
   editingId;
+  handleDelete;
   task;
-}> = ({ handleDragStart, setEditingId, saveUpdate, task, editingId }) => {
+}> = ({
+  handleDragStart,
+  setEditingId,
+  saveUpdate,
+  task,
+  editingId,
+  handleDelete,
+}) => {
   const [value, setValue] = React.useState(task.content);
 
-  const handleChange = debounce(value => {
+  const handleChange = debounce((value) => {
     setValue(value);
   }, 250);
 
   return (
-    <CardComp draggable onDragStart={e => handleDragStart(e, task.id)}>
+    <CardComp draggable onDragStart={(e) => handleDragStart(e, task.id)}>
       <CardBody>
         {editingId == task.id ? (
           <div>
@@ -56,6 +63,10 @@ export const Card: React.FC<{
               <label htmlFor="completed"> {"completed"}</label>
               &nbsp;
               <a onClick={() => setEditingId(task.id)}>edit</a>
+              &nbsp;
+              <a style={{ color: "red" }} onClick={() => handleDelete(task.id)}>
+                delete
+              </a>
             </div>
           </div>
         )}

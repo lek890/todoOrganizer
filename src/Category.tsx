@@ -11,7 +11,7 @@ export const Category: React.FC<{
 }> = ({ item, handleClick, handleDrop, handleDragOver, tasks }) => {
   const [value, setValue] = React.useState("");
   const [editorDefaultValue, setEditorDefaultValue] = React.useState();
-  const handleChange = debounce(value => {
+  const handleChange = debounce((value) => {
     setValue(value);
   }, 250);
   return (
@@ -37,8 +37,8 @@ export const Category: React.FC<{
       </div>
       <div
         className="droppable"
-        onDrop={e => handleDrop(e, item[0])}
-        onDragOver={e => handleDragOver(e)}
+        onDrop={(e) => handleDrop(e, item[0])}
+        onDragOver={(e) => handleDragOver(e)}
       >
         {tasks}
       </div>
